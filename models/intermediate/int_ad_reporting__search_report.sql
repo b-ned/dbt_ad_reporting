@@ -21,44 +21,6 @@ microsoft_ads as (
 ), 
 {% endif %}
 
-{% if 'apple_search_ads' in enabled_packages and var('apple_search_ads__using_search_terms', True) %}
-apple_search_ads as (
-
-    {{ get_query(
-        platform='apple_search_ads', 
-        report_type='search', 
-        field_mapping={
-                'account_id': 'organization_id',
-                'account_name': 'organization_name',
-                'search_match_type': 'match_type',
-                'search_query': 'search_term_text',
-                'clicks': 'taps',
-                'conversions': 'tap_installs',
-                'conversions_value': 'null'
-            },
-        relation=ref('apple_search_ads__search_term_report')
-    ) }}
-), 
-{% endif %}
-
-{% if 'amazon_ads' in enabled_packages %}
-amazon_ads as (
-
-    {{ get_query(
-        platform='amazon_ads', 
-        report_type='search', 
-        field_mapping={
-                'spend': 'cost',
-                'search_match_type': 'match_type',
-                'search_query': 'search_term',
-                'conversions': 'purchases_30_d',
-                'conversions_value': 'sales_30_d'
-            },
-        relation=ref('amazon_ads__search_report')
-    ) }}
-), 
-{% endif %}
-
 {% if 'google_ads' in enabled_packages and var('google_ads__using_search_term_keyword_stats', True) %}
 google_ads as (
 

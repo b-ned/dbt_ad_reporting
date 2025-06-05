@@ -30,27 +30,6 @@ facebook_ads as (
 ),
 {% endif %}
 
-{% if 'linkedin_ads' in enabled_packages %}
-{# Linkedin sends Hong Kong as Hong Kong SAR while others send it as Hong Kong SAR China or Hong Kong #}
-linkedin_ads as (
-
-    {{ get_query(
-        platform='linkedin_ads', 
-        report_type='country', 
-        field_mapping={
-                'campaign_id': 'campaign_group_id',
-                'campaign_name': 'campaign_group_name',
-                'spend': 'cost',
-                'conversions': 'total_conversions',
-                'conversions_value': 'conversion_value_in_local_currency',
-                'country': "replace(country_name, 'Hong Kong SAR', 'Hong Kong SAR China')",
-                'country_code': 'null'
-            },
-        relation=ref('linkedin_ads__monthly_campaign_country_report')
-    ) }}
-),
-{% endif %}
-
 {% if 'microsoft_ads' in enabled_packages %}
 microsoft_ads as (
 
@@ -65,97 +44,6 @@ microsoft_ads as (
 ),
 {% endif %}
 
-{% if 'pinterest_ads' in enabled_packages %}
-{# Pinterest Ads labels the United States as U.S. #}
-pinterest_ads as (
-
-    {{ get_query(
-        platform='pinterest_ads', 
-        report_type='country', 
-        field_mapping={
-                'account_id': 'advertiser_id',
-                'account_name': 'advertiser_name',
-                'conversions': 'total_conversions',
-                'conversions_value': 'total_conversions_value',
-                'country_code': 'country_id',
-                'country': "replace(country_name, 'U.S.', 'United States')"
-            },
-        relation=ref('pinterest_ads__campaign_country_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'reddit_ads' in enabled_packages %}
-reddit_ads as (
-
-    {{ get_query(
-        platform='reddit_ads', 
-        report_type='country', 
-        field_mapping={
-                'account_name': 'null',
-                'conversions_value': 'total_value',
-                'country': 'null',
-                'country_code': 'country'
-            },
-        relation=ref('reddit_ads__campaign_country_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'snapchat_ads' in enabled_packages %}
-snapchat_ads as (
-
-    {{ get_query(
-        platform='snapchat_ads', 
-        report_type='country', 
-        field_mapping={
-                'account_id': 'ad_account_id',
-                'account_name': 'ad_account_name',
-                'clicks': 'swipes',
-                'conversions': 'total_conversions',
-                'conversions_value': 'conversion_purchases_value',
-                'country': 'null',
-                'country_code': 'country'
-            },
-        relation=ref('snapchat_ads__campaign_country_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'tiktok_ads' in enabled_packages %}
-tiktok_ads as (
-
-    {{ get_query(
-        platform='tiktok_ads', 
-        report_type='country', 
-        field_mapping={
-                'account_id': 'advertiser_id',
-                'account_name': 'advertiser_name',
-                'conversions': 'conversion',
-                'conversions_value': 'null',
-                'country': 'null',
-                'country_code': 'country_code'
-            },
-        relation=ref('tiktok_ads__campaign_country_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'twitter_ads' in enabled_packages %}
-twitter_ads as (
-
-    {{ get_query(
-        platform='twitter_ads', 
-        report_type='country', 
-        field_mapping={
-                'conversions': 'total_conversions',
-                'conversions_value': 'total_conversions_sale_amount',
-                'country_code': 'null'
-            },
-        relation=ref('twitter_ads__campaign_country_report')
-    ) }}
-),
-{% endif %}
 
 unioned as (
 

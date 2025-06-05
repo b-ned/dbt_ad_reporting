@@ -26,24 +26,6 @@ facebook_ads as (
 ),
 {% endif %}
 
-{% if 'linkedin_ads' in enabled_packages %}
-linkedin_ads as (
-
-    {{ get_query(
-        platform='linkedin_ads', 
-        report_type='region', 
-        field_mapping={
-                'campaign_id': 'campaign_group_id',
-                'campaign_name': 'campaign_group_name',
-                'spend': 'cost',
-                'conversions': 'total_conversions',
-                'conversions_value': 'conversion_value_in_local_currency',
-                'region': 'region_name'
-            },
-        relation=ref('linkedin_ads__monthly_campaign_region_report')
-    ) }}
-),
-{% endif %}
 
 {% if 'microsoft_ads' in enabled_packages %}
 microsoft_ads as (
@@ -52,58 +34,6 @@ microsoft_ads as (
         platform='microsoft_ads', 
         report_type='region',
         relation=ref('microsoft_ads__campaign_region_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'pinterest_ads' in enabled_packages %}
-pinterest_ads as (
-
-    {{ get_query(
-        platform='pinterest_ads', 
-        report_type='region', 
-        field_mapping={
-                'account_id': 'advertiser_id',
-                'account_name': 'advertiser_name',
-                'conversions': 'total_conversions',
-                'conversions_value': 'total_conversions_value',
-                'region': 'region_name'
-            },
-        relation=ref('pinterest_ads__campaign_region_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'snapchat_ads' in enabled_packages %}
-snapchat_ads as (
-
-    {{ get_query(
-        platform='snapchat_ads', 
-        report_type='region', 
-        field_mapping={
-                'account_id': 'ad_account_id',
-                'account_name': 'ad_account_name',
-                'clicks':'swipes',
-                'conversions': 'total_conversions',
-                'conversions_value': 'conversion_purchases_value',
-                'region': "replace(region, 'UNKNOWN', 'Unknown')"
-            },
-        relation=ref('snapchat_ads__campaign_region_report')
-    ) }}
-),
-{% endif %}
-
-{% if 'twitter_ads' in enabled_packages %}
-twitter_ads as (
-
-    {{ get_query(
-        platform='twitter_ads', 
-        report_type='region', 
-        field_mapping={
-                'conversions': 'total_conversions',
-                'conversions_value': 'total_conversions_sale_amount'
-            },
-        relation=ref('twitter_ads__campaign_region_report')
     ) }}
 ),
 {% endif %}
